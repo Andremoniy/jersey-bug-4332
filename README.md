@@ -5,7 +5,7 @@ The test is based on https://github.com/nhenneaux/jersey-http2-jetty-connector/b
 
 The main idea of the test is to artifially replace the default SSL factory object:
 ```$xslt
-                    HttpsURLConnection.setDefaultSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
+HttpsURLConnection.setDefaultSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
 ```
 
 This causes failure of the logic in `org.glassfish.jersey.client.internal.HttpUrlConnector` class in this place:
