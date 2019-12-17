@@ -3,6 +3,21 @@ A simple test which demonstrates the problem described in https://github.com/ecl
 
 The test is based on https://github.com/nhenneaux/jersey-http2-jetty-connector/blob/master/jersey-http2-jetty-connector/src/test/java/org/glassfish/jersey/jetty/connector/Http2Test.java
 
+The main idea of the test is to artifially replace the default SSL factory object:
+```$xslt
+                    HttpsURLConnection.setDefaultSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
+```
+
+This causes failure of the logic in `org.glassfish.jersey.client.internal.HttpUrlConnector` class in this place:
+
+```$xslt
+
+            if (HttpsURLConnection.getDefaultSSLSocketFactory() == suc.getSSLSocketFactory()) {
+                // indicates that the custom socket factory was not set
+                suc.setSSLSocketFactory(sslSocketFactory.get());
+            }
+```
+
 Just run the test to reproduce the problem:
 `mvn clean test`
 
